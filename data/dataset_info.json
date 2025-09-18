@@ -3,7 +3,7 @@
     "file_name": "identity.json"
   },
   "jokes": {
-    "file_name": "jokes_sft.jsonl"
+    "file_name": "jokes_sft.json"
   },
   "alpaca_en_demo": {
     "file_name": "alpaca_en_demo.json"
