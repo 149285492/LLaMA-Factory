@@ -58,7 +58,7 @@ def merge_paragraphs(paragraphs, max_len=1500):
             jokes.append({
                 "instruction": '讲个笑话',
                 "input": '',
-                "text": "\n".join(buffer).strip()
+                "output": "\n".join(buffer).strip()
             })
             buffer.clear()
 
