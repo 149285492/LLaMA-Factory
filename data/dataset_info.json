@@ -5,6 +5,9 @@
   "jokes": {
     "file_name": "jokes_sft.json"
   },
+  "cyclopedia": {
+    "file_name": "cyclopedia_full.json"
+  },
   "alpaca_en_demo": {
     "file_name": "alpaca_en_demo.json"
   },
