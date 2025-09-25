@@ -177,4 +177,5 @@ wandb/
 swanlog/
 generated_predictions.jsonl
 predictions_score.json
-data/data_create/cyclopedia/十万个为什么.epub
+data/data_create/cyclopedia/*.epub
+data/data_create/therapy/*.epub

@@ -20,7 +20,7 @@ OUTPUT_JSON = "cyclopedia_sft.json"  # 输出文件
 
 
 
-def extract_epub_paragraphs(epub_path: str):
+def extract_epub_paragraphs(epub_path: str, max_len=512):
     """从 epub 文件提取纯文本段落"""
     paragraphs = []
     with zipfile.ZipFile(epub_path, 'r') as z:
@@ -33,7 +33,7 @@ def extract_epub_paragraphs(epub_path: str):
                 raw = z.read(name).decode('latin-1', errors='ignore')
 
             # parseData(raw, paragraphs)
-            parseShiWanWenData(raw, paragraphs)
+            parseShiWanWenData(raw, paragraphs,max_len)
             # i+=1
             # print(i)
             # if i>=20:
@@ -84,7 +84,7 @@ def parseData(html_str, data):
 
 
 
-def parseShiWanWenData(html_str, data):
+def parseShiWanWenData(html_str, data, max_len):
     # 读取 html 文件
     soup = BeautifulSoup(html_str, "html.parser")
 
@@ -96,11 +96,13 @@ def parseShiWanWenData(html_str, data):
         if tag.name == "h3" and "bodycontent-second-title" in " ".join(tag.get("class", [])):
             # 保存上一条
             if current_title and current_content:
-                data.append({
-                    "instruction": current_title.replace("　", " "),
-                    "input": "",
-                    "output": "".join(current_content)
-                })
+                print(len("".join(current_content)))
+                if (len("".join(current_content)) +len(current_title)) <= max_len:
+                    data.append({
+                        "instruction": current_title.replace("　", " "),
+                        "input": "",
+                        "output": "".join(current_content)
+                    })
             current_title = tag.get_text(strip=True)
             current_content = []
         # 处理正文
@@ -130,7 +132,7 @@ def parseShiWanWenData(html_str, data):
 
 
 def main():
-    paragraphs = extract_epub_paragraphs(EPUB_PATH)
+    paragraphs = extract_epub_paragraphs(EPUB_PATH,512)
     print(f"提取段落数: {len(paragraphs)}")
 
     # 保存 JSONL
