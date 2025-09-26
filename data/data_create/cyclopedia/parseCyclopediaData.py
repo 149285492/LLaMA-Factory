@@ -132,7 +132,7 @@ def parseShiWanWenData(html_str, data, max_len):
 
 
 def main():
-    paragraphs = extract_epub_paragraphs(EPUB_PATH,512)
+    paragraphs = extract_epub_paragraphs(EPUB_PATH,256)
     print(f"提取段落数: {len(paragraphs)}")
 
     # 保存 JSONL
