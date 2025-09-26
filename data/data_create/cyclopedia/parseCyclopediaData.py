@@ -116,11 +116,12 @@ def parseShiWanWenData(html_str, data, max_len):
 
     # 保存最后一条
     if current_title and current_content:
-        data.append({
-            "instruction": current_title.replace("　", " "),
-            "input": "",
-            "output": "".join(current_content)
-        })
+        if (len("".join(current_content)) + len(current_title)) <= max_len:
+            data.append({
+                "instruction": current_title.replace("　", " "),
+                "input": "",
+                "output": "".join(current_content)
+            })
 
 
     # # 输出为 JSONL
@@ -132,7 +133,7 @@ def parseShiWanWenData(html_str, data, max_len):
 
 
 def main():
-    paragraphs = extract_epub_paragraphs(EPUB_PATH,256)
+    paragraphs = extract_epub_paragraphs(EPUB_PATH,512)
     print(f"提取段落数: {len(paragraphs)}")
 
     # 保存 JSONL
