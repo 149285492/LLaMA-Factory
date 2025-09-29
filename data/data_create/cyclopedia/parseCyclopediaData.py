@@ -101,7 +101,7 @@ def parseShiWanWenData(html_str, data, max_len):
                     data.append({
                         "instruction": current_title.replace("　", " "),
                         "input": "",
-                        "output": "".join(current_content)
+                        "output": remove_all_parentheses("".join(current_content))
                     })
             current_title = tag.get_text(strip=True)
             current_content = []
@@ -120,7 +120,7 @@ def parseShiWanWenData(html_str, data, max_len):
             data.append({
                 "instruction": current_title.replace("　", " "),
                 "input": "",
-                "output": "".join(current_content)
+                "output": remove_all_parentheses("".join(current_content))
             })
 
 
@@ -130,10 +130,25 @@ def parseShiWanWenData(html_str, data, max_len):
     #         f.write(json.dumps(d, ensure_ascii=False) + "\n")
 
 
+import re
+
+def remove_last_parentheses(text):
+    # 删除最后一个全角或半角括号及其中内容（包括括号本身）
+    return re.sub(r'(（[^（）]*）|\([^()]*\))$', '', text)
+
+
+def remove_all_parentheses(text):
+    # 删除文本中所有全角或半角括号及其中内容（包括括号本身）
+    return re.sub(r'(（[^（）]*）|\([^()]*\))', '', text)
+
+def test_remove_last_parentheses():
+    # 示例
+    s = "这是一个例子（需要删除）"
+    print(remove_last_parentheses(s))  # 输出：这是一个例子
 
 
 def main():
-    paragraphs = extract_epub_paragraphs(EPUB_PATH,512)
+    paragraphs = extract_epub_paragraphs(EPUB_PATH,1000)
     print(f"提取段落数: {len(paragraphs)}")
 
     # 保存 JSONL
@@ -145,3 +160,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
